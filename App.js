@@ -9,7 +9,11 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
 import Signout from "./src/screens/Signout";
 import ResolveAuth from "./src/screens/ResolveAuth";
+import firebase from "firebase";
+import { firebaseConfig } from "./config";
+import LoadingScreen from "./src/screens/LoadingScreen";
 
+firebase.initializeApp(firebaseConfig);
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -24,12 +28,12 @@ const HomeScreenStack = () => {
 
 const LoginStack = () => {
   return (
-    <Stack.Navigator initialRouteName={SignUp}>
-      <Stack.Screen
+    <Stack.Navigator initialRouteName="signin">
+      {/* <Stack.Screen
         name="Signup"
         component={SignUp}
         options={{ header: () => null }}
-      />
+      /> */}
       <Stack.Screen
         name="signin"
         component={SignIn}
@@ -42,10 +46,10 @@ const LoginStack = () => {
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={"resolveAuth"}>
+      <Stack.Navigator initialRouteName={"loading"}>
         <Stack.Screen
-          name="resolveAuth"
-          component={ResolveAuth}
+          name="loading"
+          component={LoadingScreen}
           options={{ header: () => null }}
         />
         <Stack.Screen

@@ -3,6 +3,7 @@ import trackerAPI from "../api/tracker";
 import Axios from "axios";
 import AsyncStorage from "@react-native-community/async-storage";
 import { call } from "react-native-reanimated";
+import firebase from "firebase";
 
 const authReducer = (state, action) => {
   switch (action.type) {
@@ -29,6 +30,16 @@ const localSignIn = (dispatch) => async (callback) => {
   } else {
     callback("login");
   }
+};
+
+const checkGSignIn = () => (sendTo) => {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      sendTo("Home");
+    } else {
+      sendTo("login");
+    }
+  });
 };
 
 const signup = (dispatch) => async ({ email, password }, callback) => {
@@ -74,6 +85,6 @@ const signout = (dispatch) => async (callback) => {
 
 export const { Context, Provider } = CreateDataContext(
   authReducer,
-  { signup, signin, clearErrorMessage, localSignIn, signout },
+  { signup, signin, clearErrorMessage, checkGSignIn, signout, localSignIn },
   { token: null, errorMessage: "" }
 );

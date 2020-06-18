@@ -1,8 +1,9 @@
 import React from "react";
-import { Text } from "react-native";
+import { Text, Button } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
 import Signout from "./Signout";
+import axios from "axios";
 
 const Drawer = createDrawerNavigator();
 
@@ -16,6 +17,16 @@ const HomeScreen = () => {
           <Drawer.Screen name="Signout" component={Signout} />
         </Drawer.Navigator>
       </NavigationContainer> */}
+      <Button
+        title="Press"
+        onPress={() => {
+          const test = axios
+            .get("https://www.googleapis.com/drive/v3/files")
+            .then((result) => result.json())
+            .catch((err) => console.log(err));
+          console.log(test);
+        }}
+      />
     </>
   );
 };
